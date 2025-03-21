@@ -1,0 +1,9 @@
+{
+    "host": "192.168.1.95",
+    "port": 8006,
+    "custom_headers": { // Optional
+        "Authorization": "Bearer XXX", // Bearer Token
+        "CF-Access-Client-ID": "XXXXX.access", // Cloudflare Access Client ID
+        "CF-Access-Client-Secret": "XXXXX" // Cloudflare Access Client Secret
+    }
+}

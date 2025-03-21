@@ -1,26 +1,90 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --primary: #974800;
+  --onPrimary: #ffffff;
+  --primaryContainer: #ffdbc7;
+  --onPrimaryContainer: #311300;
+  --secondary: #755846;
+  --onSecondary: #ffffff;
+  --secondaryContainer: #ffdbc7;
+  --onSecondaryContainer: #2b1709;
+  --tertiary: #616133;
+  --onTertiary: #ffffff;
+  --tertiaryContainer: #e7e6ad;
+  --onTertiaryContainer: #1d1d00;
+  --error: #ba1a1a;
+  --onError: #ffffff;
+  --errorContainer: #ffdad6;
+  --onErrorContainer: #410002;
+  --background: #fffbff;
+  --onBackground: #201a17;
+  --surface: #fff8f5;
+  --onSurface: #201a17;
+  --surfaceVariant: #f4ded3;
+  --onSurfaceVariant: #52443c;
+  --outline: #84746a;
+  --outlineVariant: #d7c3b8;
+  --shadow: #000000;
+  --scrim: #000000;
+  --inverseSurface: #362f2b;
+  --inverseOnSurface: #fbeee8;
+  --inversePrimary: #ffb689;
+  --surfaceDim: #e4d8d2;
+  --surfaceBright: #fff8f5;
+  --surfaceContainerLowest: #ffffff;
+  --surfaceContainerLow: #fef1eb;
+  --surfaceContainer: #f8ebe6;
+  --surfaceContainerHigh: #f2e6e0;
+  --surfaceContainerHighest: #ece0da;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --primary: #ffb689;
+    --onPrimary: #512400;
+    --primaryContainer: #733500;
+    --onPrimaryContainer: #ffdbc7;
+    --secondary: #e5bfa9;
+    --onSecondary: #432b1c;
+    --secondaryContainer: #5b4130;
+    --onSecondaryContainer: #ffdbc7;
+    --tertiary: #cac993;
+    --onTertiary: #323209;
+    --tertiaryContainer: #49491e;
+    --onTertiaryContainer: #e7e6ad;
+    --error: #ffb4ab;
+    --onError: #690005;
+    --errorContainer: #93000a;
+    --onErrorContainer: #ffb4ab;
+    --background: #201a17;
+    --onBackground: #ece0da;
+    --surface: #18120f;
+    --onSurface: #ece0da;
+    --surfaceVariant: #52443c;
+    --onSurfaceVariant: #d7c3b8;
+    --outline: #9f8d83;
+    --outlineVariant: #52443c;
+    --shadow: #000000;
+    --scrim: #000000;
+    --inverseSurface: #ece0da;
+    --inverseOnSurface: #362f2b;
+    --inversePrimary: #974800;
+    --surfaceDim: #18120f;
+    --surfaceBright: #3f3834;
+    --surfaceContainerLowest: #120d0a;
+    --surfaceContainerLow: #201a17;
+    --surfaceContainer: #241e1b;
+    --surfaceContainerHigh: #2f2925;
+    --surfaceContainerHighest: #3a3330;
   }
 }
 
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--onSurface);
+  background-color: var(--background);
 }
