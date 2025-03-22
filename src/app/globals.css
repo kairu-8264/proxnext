@@ -80,6 +80,11 @@
   }
 }
 
+::selection {
+  background-color: var(--primary);
+  color: var(--onPrimary);
+}
+
 
 body {
   font-family: 'Roboto', sans-serif;
