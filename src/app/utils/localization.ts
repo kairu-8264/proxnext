@@ -6,6 +6,14 @@ interface Labels {
     loadingRealms: string;
     selectRealm: string;
     dashboard: string;
+    loginError: string;
+    vmList: string;
+    ctList: string;
+    status: string;
+    name: string;
+    cpuUsage: string;
+    node: string;
+    memoryUsage: string;
 }
 
 const labels: { [key: string]: Labels } = {
@@ -17,6 +25,14 @@ const labels: { [key: string]: Labels } = {
         loadingRealms: 'Loading realms...',
         selectRealm: 'Select a realm',
         dashboard: 'Dashboard',
+        loginError: 'Login failed',
+        vmList: 'VM List',
+        ctList: 'CT List',
+        status: 'Status',
+        name: 'Name',
+        node: 'Node',
+        cpuUsage: 'CPU Usage',
+        memoryUsage: 'Memory Usage',
     },
     ja: {
         username: 'ユーザー名',
@@ -26,6 +42,14 @@ const labels: { [key: string]: Labels } = {
         loadingRealms: 'レルムを読み込んでいます...',
         selectRealm: 'レルムを選択してください',
         dashboard: 'ダッシュボード',
+        loginError: 'ログインに失敗しました',
+        vmList: 'VMリスト',
+        ctList: 'CTリスト',
+        status: 'ステータス',
+        name: '名前',
+        node: 'ノード',
+        cpuUsage: 'CPU使用率',
+        memoryUsage: 'メモリ使用量',
     },
     tw: {
         username: '用戶名',
@@ -35,6 +59,14 @@ const labels: { [key: string]: Labels } = {
         loadingRealms: '正在加載領域...',
         selectRealm: '請選擇一個領域',
         dashboard: '儀表板',
+        loginError: '登錄失敗',
+        vmList: 'VM列表',
+        ctList: 'CT列表',
+        status: '狀態',
+        name: '名稱',
+        node: '節點',
+        cpuUsage: 'CPU使用率',
+        memoryUsage: '內存使用量',
     },
 };
 

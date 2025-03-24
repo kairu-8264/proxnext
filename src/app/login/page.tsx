@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 
 import ErrorPopup from "@/components/ErrorPopup";
 import TFAPopup from "@/components/TFAPopup";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function Login() {
   interface Realm {
@@ -23,6 +24,14 @@ export default function Login() {
   const [realms, setRealms] = useState<Realm[]>([]);
   const [loading, setLoading] = useState(true);
   const [language, setLanguage] = useState<string>('en');
+
+  const [isTFAOpen, setIsTFAOpen] = useState(false);
+  const [tfaToken, setTfaToken] = useState('');
+
+  const [isError, setIsError] = useState(false);
+  const [ErrorMsg, setErrorMsg] = useState('');
+
+  const currentLabels = getLabels(language);
 
   useEffect(() => {
     const browserLanguage = navigator.language;
@@ -44,39 +53,47 @@ export default function Login() {
     fetchRealms();
   }, []);
 
+  useEffect(() => {
+    setIsError(false);
+    setErrorMsg('');
+  }, [username, password]);
+
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await fetch('/api/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password, realm }),
       });
       const data = await response.json();
-      if (data.data.ticket) {
+
+      if (data.data && data.data.ticket) {
         if (data.data.NeedTFA) {
-          TFAPopup();
+          setIsTFAOpen(true);
+          setTfaToken(data.data.ticket);
           return;
         }
         Cookies.set('token', data.data.ticket);
         router.push('/dashboard');
+      } else {
+        setIsError(true);
+        setErrorMsg(currentLabels.loginError + `(code: ${response.status})`);
       }
-      else {
-        ErrorPopup();
-      }
-    }
-    catch (error) {
+    } catch (error) {
       console.error('Error logging in:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const currentLabels = getLabels(language);
   return (
     <div className="flex items-center justify-center min-h-screen" style={{ backgroundColor: "var(--background)" }}>
+      {loading && <LoadingSpinner />}
       <div className="p-6 rounded-lg shadow-md w-96" style={{ backgroundColor: "var(--surface)", color: "var(--onBackground)" }}>
         <h2 className="text-2xl font-bold mb-4 text-center" style={{ color: "var(--primary)" }}>{currentLabels.login}</h2>
+        {isError && <ErrorPopup message={ErrorMsg} />}
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label className="block text-sm font-medium" style={{ color: "var(--onSurface)" }}>{currentLabels.username}</label>
@@ -84,7 +101,7 @@ export default function Login() {
               type="text"
               className="w-full p-2 border rounded mt-1"
               style={{
-                borderColor: "var(--outline)",
+                borderColor: isError ? "var(--error)" : "var(--outline)",
                 backgroundColor: "var(--surfaceContainerLow)",
                 color: "var(--onSurface)"
               }}
@@ -100,7 +117,7 @@ export default function Login() {
               type="password"
               className="w-full p-2 border rounded mt-1"
               style={{
-                borderColor: "var(--outline)",
+                borderColor: isError ? "var(--error)" : "var(--outline)",
                 backgroundColor: "var(--surfaceContainerLow)",
                 color: "var(--onSurface)"
               }}
@@ -146,6 +163,7 @@ export default function Login() {
           </button>
         </form>
       </div>
+      {isTFAOpen && <TFAPopup isOpen={isTFAOpen} onClose={() => setIsTFAOpen(false)} tfaToken={tfaToken} tfaUsername={username} tfaRealm={realm} />}
     </div>
   );
 }

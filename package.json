@@ -9,11 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "chart.js": "^3.9.1",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "chartjs-plugin-streaming": "^2.0.0",
+    "date-fns": "^4.1.0",
     "js-cookie": "^3.0.5",
     "next": "15.2.3",
     "nextjs-toploader": "^3.7.15",
     "node-fetch": "^3.3.2",
     "react": "^19.0.0",
+    "react-chartjs-2": "^4.3.1",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
