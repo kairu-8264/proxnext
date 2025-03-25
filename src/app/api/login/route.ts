@@ -12,7 +12,7 @@ export async function POST(request: Request): Promise<Response> {
         const postData = new URLSearchParams({
             username,
             password,
-            realm
+            ...(realm && { realm })
         }).toString();
 
         const response = await fetch(`https://${host}:${port}/api2/json/access/ticket`, {

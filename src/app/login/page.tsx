@@ -76,6 +76,7 @@ export default function Login() {
           return;
         }
         Cookies.set('token', data.data.ticket);
+        Cookies.set('username', data.data.username);
         router.push('/dashboard');
       } else {
         setIsError(true);

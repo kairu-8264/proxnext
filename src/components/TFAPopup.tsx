@@ -37,6 +37,7 @@ export default function TFAPopup({ isOpen, onClose, tfaToken, tfaUsername, tfaRe
 
       if (data.data && data.data.ticket) {
         Cookies.set('token', data.data.ticket);
+        Cookies.set('username', data.data.username);
         router.push('/dashboard');
       } else {
         console.error('Error verifying TFA:', data);

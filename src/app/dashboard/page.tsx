@@ -72,6 +72,9 @@ export default function Dashboard() {
   const onResourceClick = (resource: Resource) => {
     setCurrentResourceId(resource.id);
     setCurrentResource(resource);
+
+    chartDataRef.current.cpu = [{ x: Date.now(), y: 0 }];
+    chartDataRef.current.mem = [{ x: Date.now(), y: 0 }];
   };
 
   const currentLabels = getLabels(language);
@@ -85,7 +88,7 @@ export default function Dashboard() {
         <div style={{ backgroundColor: "var(--surface)", color: "var(--onBackground)" }}>
           <h3 className="text-xl font-bold mb-2 text-center" style={{ color: "var(--primary)" }}>{currentLabels.vmList}</h3>
           {resources.filter(resource => resource.type === 'qemu').map(resource => (
-            <div onClick={() => onResourceClick(resource)} key={resource.id} className="p-2 my-2 rounded-lg m-2" style={{ backgroundColor: "var(--tertiaryContainer)", color: "var(--onTertiaryContainer)" }}>
+            <div onClick={() => onResourceClick(resource)} key={resource.id} className="p-2 my-2 rounded-lg m-2" style={{ backgroundColor: currentResourceId === resource.id ? "var(--tertiaryContainer)" : "var(--surface)", color: currentResourceId === resource.id ? "var(--onTertiaryContainer)" : "var(--onBackground)" }}>
               <p>{resource.id} {resource.name && `(${resource.name})`}</p>
               <p>{resource.status}</p>
             </div>
@@ -94,7 +97,7 @@ export default function Dashboard() {
         <div style={{ backgroundColor: "var(--surface)", color: "var(--onBackground)" }}>
           <h3 className="text-xl font-bold mb-2 text-center" style={{ color: "var(--primary)" }}>{currentLabels.ctList}</h3>
           {resources.filter(resource => resource.type === 'lxc').map(resource => (
-            <div onClick={() => onResourceClick(resource)} key={resource.id} className="p-2 my-2 rounded-lg m-2" style={{ backgroundColor: "var(--tertiaryContainer)", color: "var(--onTertiaryContainer)" }}>
+            <div onClick={() => onResourceClick(resource)} key={resource.id} className="p-2 my-2 rounded-lg m-2" style={{ backgroundColor: currentResourceId === resource.id ? "var(--tertiaryContainer)" : "var(--surface)", color: currentResourceId === resource.id ? "var(--onTertiaryContainer)" : "var(--onBackground)" }}>
               <p>{resource.id} {resource.name && `(${resource.name})`}</p>
               <p>{resource.status}</p>
             </div>
@@ -171,7 +174,7 @@ export default function Dashboard() {
                             unit: 'second',
                           },
                           realtime: {
-                            duration: 60000,
+                            duration: 30000,
                             delay: 4000,
                             refresh: 2000,
                             frameRate: 60,
