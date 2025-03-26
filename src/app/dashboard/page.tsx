@@ -6,7 +6,7 @@ import Chart from 'chart.js/auto';
 import StreamingPlugin from 'chartjs-plugin-streaming';
 import 'chartjs-adapter-date-fns';
 import { enUS, ja, zhTW } from 'date-fns/locale'
-import { Button, Card, CardContent, Typography } from "@mui/material";
+// import { Button, Card, CardContent, Typography } from "@mui/material";
 Chart.register(StreamingPlugin);
 
 import { Line } from 'react-chartjs-2';
