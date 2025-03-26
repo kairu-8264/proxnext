@@ -6,7 +6,7 @@ import Chart from 'chart.js/auto';
 import StreamingPlugin from 'chartjs-plugin-streaming';
 import 'chartjs-adapter-date-fns';
 import { enUS, ja, zhTW } from 'date-fns/locale'
-// import { Button, Card, CardContent, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 Chart.register(StreamingPlugin);
 
 import { Line } from 'react-chartjs-2';
@@ -87,21 +87,69 @@ export default function Dashboard() {
         <div className="flex w-3/4"></div>
         <div style={{ backgroundColor: "var(--surface)", color: "var(--onBackground)" }}>
           <h3 className="text-xl font-bold mb-2 text-center" style={{ color: "var(--primary)" }}>{currentLabels.vmList}</h3>
-          {resources.filter(resource => resource.type === 'qemu').map(resource => (
-            <div onClick={() => onResourceClick(resource)} key={resource.id} className="p-2 my-2 rounded-lg m-2" style={{ backgroundColor: currentResourceId === resource.id ? "var(--tertiaryContainer)" : "var(--surface)", color: currentResourceId === resource.id ? "var(--onTertiaryContainer)" : "var(--onBackground)" }}>
-              <p>{resource.id} {resource.name && `(${resource.name})`}</p>
-              <p>{resource.status}</p>
-            </div>
-          ))}
+          {resources
+            .filter(resource => resource.type === "qemu")
+            .map(resource => (
+              <Button
+                key={resource.id}
+                onClick={() => onResourceClick(resource)}
+                variant="contained"
+                sx={{
+                  my: 1,
+                  py: 2,
+                  px: 3,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  width: "100%",
+                  backgroundColor: currentResourceId === resource.id ? "var(--tertiaryContainer)" : "var(--surface)",
+                  color: currentResourceId === resource.id ? "var(--onTertiaryContainer)" : "var(--onBackground)",
+                  "&:hover": {
+                    backgroundColor: currentResourceId === resource.id ? "var(--tertiaryContainer)" : "var(--onTertiary)",
+                  },
+                }}
+              >
+                <Typography variant="h6" sx={{ textTransform: "uppercase" }}>
+                  {resource.id} {resource.name && `(${resource.name})`}
+                </Typography>
+                <Typography variant="body2">
+                  {resource.status}
+                </Typography>
+              </Button>
+            ))}
         </div>
         <div style={{ backgroundColor: "var(--surface)", color: "var(--onBackground)" }}>
           <h3 className="text-xl font-bold mb-2 text-center" style={{ color: "var(--primary)" }}>{currentLabels.ctList}</h3>
-          {resources.filter(resource => resource.type === 'lxc').map(resource => (
-            <div onClick={() => onResourceClick(resource)} key={resource.id} className="p-2 my-2 rounded-lg m-2" style={{ backgroundColor: currentResourceId === resource.id ? "var(--tertiaryContainer)" : "var(--surface)", color: currentResourceId === resource.id ? "var(--onTertiaryContainer)" : "var(--onBackground)" }}>
-              <p>{resource.id} {resource.name && `(${resource.name})`}</p>
-              <p>{resource.status}</p>
-            </div>
-          ))}
+          {resources
+            .filter(resource => resource.type === 'lxc')
+            .map(resource => (
+              <Button
+                key={resource.id}
+                onClick={() => onResourceClick(resource)}
+                variant="contained"
+                sx={{
+                  my: 1,
+                  py: 2,
+                  px: 3,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  width: "100%",
+                  backgroundColor: currentResourceId === resource.id ? "var(--tertiaryContainer)" : "var(--surface)",
+                  color: currentResourceId === resource.id ? "var(--onTertiaryContainer)" : "var(--onBackground)",
+                  "&:hover": {
+                    backgroundColor: currentResourceId === resource.id ? "var(--tertiaryContainer)" : "var(--onTertiary)",
+                  },
+                }}
+              >
+                <Typography variant="h6" sx={{ textTransform: "uppercase" }}>
+                  {resource.id} {resource.name && `(${resource.name})`}
+                </Typography>
+                <Typography variant="body2">
+                  {resource.status}
+                </Typography>
+              </Button>
+            ))}
         </div>
       </div>
       <div className="w-full p-4" style={{ backgroundColor: "var(--background)", color: "var(--onBackground)" }}>
@@ -127,93 +175,93 @@ export default function Dashboard() {
               <div className="relative pt-1">
                 <div className="overflow-hidden h-2 mb-4 text-xs flex rounded" style={{ backgroundColor: "var(--tertiaryContainer)" }}>
                   <div style={{ width: `${(currentResource.mem! / currentResource.maxmem!) * 100}%`, backgroundColor: "var(--tertiary)" }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center"></div>
-                  </div>
-                  <p className="text-sm">{currentResource.mem !== undefined && currentResource.maxmem !== undefined ? (currentResource.mem / currentResource.maxmem) * 100 : 0}%</p>
                 </div>
-              </div>
-              <div className="mb-4">
-                <div className={'line-chart'}>
-                  <Line
-                    data={{
-                      datasets: [
-                        {
-                          label: currentLabels.cpuUsage,
-                          data: chartDataRef.current.cpu,
-                          borderColor: getComputedStyle(document.documentElement).getPropertyValue('--primary'),
-                          backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--onPrimary'),
-                          fill: true,
-                          pointRadius: 0,
-                        },
-                        {
-                          label: currentLabels.memoryUsage,
-                          data: chartDataRef.current.mem,
-                          borderColor: getComputedStyle(document.documentElement).getPropertyValue('--tertiary'),
-                          backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--onTertiary'),
-                          fill: true,
-                          pointRadius: 0,
-                        }
-                      ],
-                    }}
-                    options={{
-                      interaction: {
-                        intersect: false,
-                      },
-                      scales: {
-                        x: {
-                          type: 'realtime',
-                          title: {
-                            display: true,
-                            text: 'Time',
-                          },
-                          adapters: {
-                            date: {
-                              locale: navigator.language === 'ja' ? ja : navigator.language === 'zh-TW' ? zhTW : enUS,
-                            },
-                          },
-                          time: {
-                            unit: 'second',
-                          },
-                          realtime: {
-                            duration: 30000,
-                            delay: 4000,
-                            refresh: 2000,
-                            frameRate: 60,
-                            onRefresh: (chart) => {
-                              if (!currentResource) return;
-
-                              const now = Date.now();
-                              const cpu = currentResource.cpu;
-                              const mem = currentResource.mem;
-                              const maxmem = currentResource.maxmem;
-
-                              if (cpu !== undefined && mem !== undefined && maxmem !== undefined) {
-                                chartDataRef.current.cpu.push({ x: now, y: cpu * 100 });
-                                chartDataRef.current.mem.push({ x: now, y: maxmem !== 0 ? (mem / maxmem) * 100 : 0 });
-
-                                chartDataRef.current.cpu = chartDataRef.current.cpu.filter(d => now - d.x < 60000);
-                                chartDataRef.current.mem = chartDataRef.current.mem.filter(d => now - d.x < 60000);
-
-                                chart.update();
-                              }
-                            }
-                          },
-                        },
-                        y: {
-                          title: {
-                            display: true,
-                            text: 'Usage',
-                          },
-                          min: 0,
-                          max: 100,
-                        },
-                      },
-                    }}
-                  />
-                </div>
+                <p className="text-sm">{currentResource.mem !== undefined && currentResource.maxmem !== undefined ? (currentResource.mem / currentResource.maxmem) * 100 : 0}%</p>
               </div>
             </div>
-        )}
+            <div className="mb-4">
+              <div className={'line-chart'}>
+                <Line
+                  data={{
+                    datasets: [
+                      {
+                        label: currentLabels.cpuUsage,
+                        data: chartDataRef.current.cpu,
+                        borderColor: getComputedStyle(document.documentElement).getPropertyValue('--primary'),
+                        backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--onPrimary'),
+                        fill: true,
+                        pointRadius: 0,
+                      },
+                      {
+                        label: currentLabels.memoryUsage,
+                        data: chartDataRef.current.mem,
+                        borderColor: getComputedStyle(document.documentElement).getPropertyValue('--tertiary'),
+                        backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--onTertiary'),
+                        fill: true,
+                        pointRadius: 0,
+                      }
+                    ],
+                  }}
+                  options={{
+                    interaction: {
+                      intersect: false,
+                    },
+                    scales: {
+                      x: {
+                        type: 'realtime',
+                        title: {
+                          display: true,
+                          text: 'Time',
+                        },
+                        adapters: {
+                          date: {
+                            locale: navigator.language === 'ja' ? ja : navigator.language === 'zh-TW' ? zhTW : enUS,
+                          },
+                        },
+                        time: {
+                          unit: 'second',
+                        },
+                        realtime: {
+                          duration: 30000,
+                          delay: 4000,
+                          refresh: 2000,
+                          frameRate: 60,
+                          onRefresh: (chart) => {
+                            if (!currentResource) return;
+
+                            const now = Date.now();
+                            const cpu = currentResource.cpu;
+                            const mem = currentResource.mem;
+                            const maxmem = currentResource.maxmem;
+
+                            if (cpu !== undefined && mem !== undefined && maxmem !== undefined) {
+                              chartDataRef.current.cpu.push({ x: now, y: cpu * 100 });
+                              chartDataRef.current.mem.push({ x: now, y: maxmem !== 0 ? (mem / maxmem) * 100 : 0 });
+
+                              chartDataRef.current.cpu = chartDataRef.current.cpu.filter(d => now - d.x < 60000);
+                              chartDataRef.current.mem = chartDataRef.current.mem.filter(d => now - d.x < 60000);
+
+                              chart.update();
+                            }
+                          }
+                        },
+                      },
+                      y: {
+                        title: {
+                          display: true,
+                          text: 'Usage',
+                        },
+                        min: 0,
+                        max: 100,
+                      },
+                    },
+                  }}
+                />
+              </div>
+            </div>
           </div>
+        )}
+      </div>
     </div>
-      );
+  );
 }
