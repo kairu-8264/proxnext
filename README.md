@@ -27,7 +27,7 @@ npm install
 cp config.json.example config.json
 ```
 ### config.jsonの例
-```json
+```jsonc
 {
     "host": "192.168.1.95",
     "port": 8006,
